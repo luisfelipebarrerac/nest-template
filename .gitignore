@@ -32,3 +32,33 @@ lerna-debug.log*
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+
+# Environment Variables
+.env
+
+# migrations
+/src/database/migrations/*
+
+# static ads
+/static/advertisements/*
+!/static/advertisements/.gitkeep
+
+# static products
+/static/products/*
+!/static/products/.gitkeep
+!/static/products/0.png
+
+# static redeem products
+/static/redeem/*
+!/static/redeem/0.png
+!/static/redeem/.gitkeep
+
+
+# static promos
+!/static/promos/.gitkeep
+/static/branch/*
+!/static/branch/0.png
+!/static/branch/.gitkeep
+/static/special/*
+!/static/special/0.png
+!/static/special/.gitkeep
