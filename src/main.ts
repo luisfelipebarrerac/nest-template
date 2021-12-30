@@ -15,7 +15,6 @@ async function bootstrap() {
     console.log(
       `${new Date().toLocaleString()} \tServer running in port: ${port}`,
     );
-    console.log(`API endpoint: /${endpoint}`);
   });
 }
 
