@@ -2,6 +2,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from 'src/users/users.service';
 import { AuthDto } from './dto';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthService {
@@ -13,8 +14,8 @@ export class AuthService {
   async singinLocal(dto: AuthDto) {
     const user = await this.userService.findByEmail(dto.email);
     if (!user) throw new UnauthorizedException('Credentials not valid');
-    if (user.password != dto.password)
-      throw new UnauthorizedException('Credentials not valid');
+    const isMatch = await bcrypt.compare(dto.password, user.password);
+    if (!isMatch) throw new UnauthorizedException('Credentials not valid');
     const token = await this.signUser(user.id, user.email, 'user');
     return { message: 'Token provided', result: { token } };
   }

@@ -4,6 +4,9 @@ import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities';
+import * as bcrypt from 'bcrypt';
+import { GetUserDto } from './dto/get-user.dto';
+import { plainToClass } from 'class-transformer';
 
 @Injectable()
 export class UsersService {
@@ -11,8 +14,17 @@ export class UsersService {
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
   ) {}
-  create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
+
+  async create(createUserDto: CreateUserDto) {
+    const { password, email } = createUserDto;
+    const hash = await bcrypt.hash(password, 10);
+    const userInsert = {
+      email,
+      password: hash,
+    };
+    const user = await this.userRepository.save(userInsert);
+    const result = plainToClass(GetUserDto, user);
+    return result;
   }
 
   findAll() {
@@ -21,7 +33,8 @@ export class UsersService {
 
   async findById(id: number) {
     const user = await this.userRepository.findOne(id);
-    return { result: user };
+    const result = plainToClass(GetUserDto, user);
+    return { result: result };
   }
 
   async findByEmail(email: string) {
