@@ -7,7 +7,6 @@ import { User } from './entities';
 import * as bcrypt from 'bcrypt';
 import { UserResponseDto } from './dto/user-res-dto.';
 import { plainToClass } from 'class-transformer';
-import { timeStamp } from 'console';
 
 @Injectable()
 export class UsersService {
