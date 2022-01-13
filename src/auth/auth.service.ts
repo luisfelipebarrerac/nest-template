@@ -3,6 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { UsersService } from 'src/users/users.service';
 import { AuthDto } from './dto';
 import * as bcrypt from 'bcrypt';
+import { SignUpDto } from './dto/sign-up.dto';
 
 @Injectable()
 export class AuthService {
@@ -20,7 +21,10 @@ export class AuthService {
     return { message: 'Token provided', result: { token } };
   }
 
-  singupLocal() {}
+  async singupLocal(dto: SignUpDto) {
+    const user = await this.userService.create(dto);
+    return { result: { user } };
+  }
 
   async signUser(userId: number, email: string, type: string) {
     const token = this.jwtService.sign({
